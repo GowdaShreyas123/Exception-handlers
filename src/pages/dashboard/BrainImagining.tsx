@@ -1,6 +1,4 @@
-import React from "react";
 import { motion } from "framer-motion";
-import ParticlesBackground from "../Landingpage/BrainAtlasAnimation";
 import { Button } from "@/components/ui/shadcn/src/button";
 import BrainMeshBackground from "@/layout/SoftBackground";
 
@@ -40,12 +38,10 @@ export default function FMRIOverviewPage() {
   ];
 
   return (
-    <div className="relative  p-6 text-brandText-primary ">
+    <div className="relative  p-6  text-brandText-primary ">
       {/* Particle background */}
-       <BrainMeshBackground/>
-      <div className="absolute inset-0 -z-10">
-   
-      </div>
+      <BrainMeshBackground />
+      <div className="absolute inset-0 -z-10"></div>
 
       <div className="">
         <motion.header
@@ -67,7 +63,8 @@ export default function FMRIOverviewPage() {
           </motion.div>
 
           <motion.div variants={fadeUp} className="flex gap-3">
-            <Button variant="gradient"
+            <Button
+              variant="gradient"
               className="border border-slate-700 px-4 py-3 rounded-2xl font-medium"
               onClick={() =>
                 window.open(

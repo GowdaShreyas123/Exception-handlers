@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { usePredict } from "@/libs/tanstack/hooks/usePredict";
+import { useNavigate } from "react-router-dom";
 import sandesh from "/sandesh.jpg";
 import mava from "/mava.jpg";
-import { getSimpleToast } from "@/components/ui/toaster/ToastProvider";
 
 const UploadAndPredict = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+  const predictMutation = usePredict();
 
   const handleFile = (f: File) => {
     setFile(f);
@@ -14,6 +18,20 @@ const UploadAndPredict = () => {
     } else {
       setPreview(null);
     }
+  };
+
+  const handleUpload = () => {
+    if (!file) return;
+
+    predictMutation.mutate(file, {
+      onSuccess: (data) => {
+        // Navigate to results page
+        navigate("/prediction-result", {
+          state: { result: data },
+        });
+        
+      },
+    });
   };
 
   return (
@@ -26,7 +44,6 @@ const UploadAndPredict = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* INNER IMAGE FRAME */}
       <div
         className="rounded-2xl p-10 w-full max-w-6xl h-220 shadow-lg relative"
         style={{
@@ -37,23 +54,21 @@ const UploadAndPredict = () => {
           overflow: "hidden",
         }}
       >
-        {/* CONTENT */}
         <div className="relative z-10 space-y-8">
           <h1 className="text-4xl font-bold text-center text-white">
             MRI Scan — Upload
           </h1>
           <p className="text-center text-white text-h6">
-            Upload an MRI Image or PDF Report
+            Upload .npz file
           </p>
 
-          {/* Upload Box */}
           <label
             className="border border-slate-400/50 border-dashed rounded-2xl p-10 h-120
             flex flex-col items-center justify-center cursor-pointer transition bg-white/10 backdrop-blur"
           >
             <input
               type="file"
-              accept="image/*,application/pdf"
+              accept=".npz"
               className="hidden"
               onChange={(e) => e.target.files && handleFile(e.target.files[0])}
             />
@@ -61,37 +76,23 @@ const UploadAndPredict = () => {
             {!file ? (
               <>
                 <p className="text-lg text-white">Click to Upload</p>
-                <p className="text-sm text-slate-300">PDF or Image accepted</p>
+                <p className="text-sm text-slate-300">.npz file supported</p>
               </>
-            ) : preview ? (
-              <img
-                src={preview}
-                alt="preview"
-                className="h-100 object-cover rounded-xl shadow-lg blur-sm"
-              />
             ) : (
-              <div className="text-white">PDF Selected</div>
+              <p className="text-white">{file.name}</p>
             )}
           </label>
 
-          {/* Upload Button */}
           <button
-            onClick={() => {
-              if (!file) {
-                getSimpleToast("Please upload the image first", "error");
-                return;
-              }
-
-              // When file exists → continue upload logic here
-              getSimpleToast("Uploading...", "success");
-            }}
+            disabled={!file || predictMutation.isPending}
+            onClick={handleUpload}
             className={`w-full py-4 rounded-xl mt-12 text-lg font-medium transition ${
               file
-                ? "bg-brand-primary text-white"
-                : "bg-brandText-disabled text-slate-300"
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-neutral-700 text-slate-300 cursor-not-allowed"
             }`}
           >
-            Upload File
+            {predictMutation.isPending ? "Predicting..." : "Upload & Predict"}
           </button>
         </div>
       </div>
