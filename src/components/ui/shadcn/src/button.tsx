@@ -16,8 +16,8 @@ const buttonVariants = cva(
         outline:
           'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary:
-          'bg-brand-secondary text-secondary-foreground hover:bg-brand-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+          'bg-brand-secondary rounded-lg text-brandText-primary hover:bg-brand-secondary/80',
+        ghost: 'hover:bg-accent hover:text-brandText-primary',
         link: 'text-brandText-primary underline-offset-4 hover:underline',
         // 🌈 New gradient variant
         gradient:

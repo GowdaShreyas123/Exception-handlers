@@ -26,7 +26,7 @@ const UploadAndPredict = () => {
     predictMutation.mutate(file, {
       onSuccess: (data) => {
         // Navigate to results page
-        navigate("/prediction-result", {
+        navigate("/visual", {
           state: { result: data },
         });
         

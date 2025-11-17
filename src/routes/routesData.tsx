@@ -9,6 +9,7 @@ import UploadAndPredict from '@/pages/upload/UploadAndPredict';
 import VisualDashboard from '@/pages/VisualDashboard';
 import Logout from '@/pages/Logout';
 import FutureScope from '@/pages/FutureScope';
+import Graphs from '@/pages/graphs/Graphs';
  
 // -------------------------
 // Auth (Public) Routes
@@ -44,6 +45,11 @@ export const protectedRoutes = [
     name:'Visual Dashboard',
     path: '/visual',
     element:<VisualDashboard/>
+  },
+  {
+     name:'Visual Dashboard',
+    path: '/visual-dashboard',
+    element:<Graphs/>
   },
   {
     name:'Future Scope',

@@ -37,7 +37,7 @@ export const navItems: MenuItem[] = [
   },
   {
     name: "Visual Dashboard",
-    path: "/visual",
+    path: "/visual-dashboard",
     icon: BrainCircuit,
   },
    {
